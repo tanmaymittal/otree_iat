@@ -38,20 +38,20 @@ IAT – Implicit Association Test
 
 STIMULI = {
     'attributes': {
-        'pos': ['amusement', 'fun', 'friendship', 'happyness', 'joy'],
-        'neg': ['anger', 'hate', 'fear', 'panic', 'sickness']
+        'Male': ['Man', 'Son', 'Father', 'Boy', 'Uncle', 'Grandpa', 'Husband'],
+        'Female': ['Mother', 'Wife', 'Aunt', 'Woman', 'Girl', 'Grandma', 'Daughter']
     },
     'concepts': {
-        'canidae': ['dog', 'wolf', 'coyote', 'fox', 'jackal'],
-        'felidae': ['house cat', 'tiger', 'lynx', 'wildcat', 'cougar']
+        'Science': ['Astronomy', 'Math', 'Chemistry', 'Physics', 'Biology', 'Geology', 'Engineering'],
+        'Liberal Arts': ['History', 'Arts', 'Humanities', 'English', 'Philosophy', 'Music', 'Literature']
     }
 }
 
 STIMULI_LABELS = {
-    ('attributes', 'pos'): 'Positive words',
-    ('attributes', 'neg'): 'Negative words',
-    ('concepts', 'canidae'): 'Canidae',
-    ('concepts', 'felidae'): 'Felidae',
+    ('attributes', 'Male'): 'Male',
+    ('attributes', 'Female'): 'Female',
+    ('concepts', 'Science'): 'Science',
+    ('concepts', 'Liberal Arts'): 'Liberal Arts',
 }
 
 #
@@ -61,72 +61,72 @@ STIMULI_LABELS = {
 BLOCKS = [
     {   # 1
         'label': 'Practice 1',
-        'n': 10,      # this must match the number of stimuli per side
-        'left': [('concepts', 'felidae')],
-        'right': [('concepts', 'canidae')],
+        'n': 14,      # this must match the number of stimuli per side
+        'left': [('concepts', 'Liberal Arts')],
+        'right': [('concepts', 'Science')],
         'is_practice': True
     },
     {   # 2
         'label': 'Practice 2',
-        'n': 10,
-        'left': [('attributes', 'neg')],
-        'right': [('attributes', 'pos')],
+        'n': 14,
+        'left': [('attributes', 'Female')],
+        'right': [('attributes', 'Male')],
         'is_practice': True
     },
     {   # 3
         'label': 'Test 1',
-        'n': 20,
+        'n': 28,
         'left': [
-            ('attributes', 'neg'),
-            ('concepts', 'felidae'),
+            ('attributes', 'Female'),
+            ('concepts', 'Liberal Arts'),
         ],
         'right': [
-            ('attributes', 'pos'),
-            ('concepts', 'canidae'),
+            ('attributes', 'Male'),
+            ('concepts', 'Science'),
         ]
     },
     {   # 4: same as 3
         'label': 'Test 2',
-        'n': 20,
+        'n': 28,
         'left': [
-            ('attributes', 'neg'),
-            ('concepts', 'felidae'),
+            ('attributes', 'Female'),
+            ('concepts', 'Liberal Arts'),
         ],
         'right': [
-            ('attributes', 'pos'),
-            ('concepts', 'canidae'),
+            ('attributes', 'Male'),
+            ('concepts', 'Science'),
         ]
     },
     {   # 5
         'label': 'Practice 3 (reversed)',
-        'n': 10,
-        'left': [('concepts', 'canidae')],
-        'right': [('concepts', 'felidae')],
+        'n': 14,
+        'left': [('concepts', 'Science')],
+        'right': [('concepts', 'Liberal Arts')],
         'is_practice': True,
         'notice': 'WATCH OUT, the categories switch sides!',
     },
     {  # 6
         'label': 'Test 3',
-        'n': 20,
+        'n': 28,
         'left': [
-            ('attributes', 'neg'),
-            ('concepts', 'canidae'),
+            ('attributes', 'Female'),
+            ('concepts', 'Science'),
         ],
         'right': [
-            ('attributes', 'pos'),
-            ('concepts', 'felidae'),
+            ('attributes', 'Male'),
+            ('concepts', 'Liberal Arts'),
         ]
     },
     {  # 7: same as 6
         'label': 'Test 4',
-        'n': 20,
+        'n': 28,
         'left': [
-            ('attributes', 'neg'),
-            ('concepts', 'canidae'),
+            ('attributes', 'Female'),
+            ('concepts', 'Science'),
         ],
         'right': [
-            ('attributes', 'pos'),
-            ('concepts', 'felidae'),
+            ('attributes', 'Male'),
+            ('concepts', 'Liberal Arts'),
         ]
     },
 ]
@@ -153,7 +153,7 @@ class Subsession(BaseSubsession):
             block_num = p.round_number - 1
             block_def = BLOCKS[block_num]    # get block definition for this round
 
-            # create stimuli: class (attrib./concept) and level (e.g. pos./neg.) for left and right side
+            # create stimuli: class (attrib./concept) and level (e.g. Male./Female.) for left and right side
             stimuli = []
             for side in ('left', 'right'):
                 for stim_class, stim_lvl in block_def[side]:
@@ -203,7 +203,7 @@ class Trial(Model):
 
     stimulus = models.StringField()          # shown word or name
     stimulus_class = models.StringField()    # words or names
-    stimulus_level = models.StringField()    # pos/neg or tr/dt
+    stimulus_level = models.StringField()    # Male/Female or tr/dt
 
     response_key = models.StringField()       # response: key that was pressed by participant
     response_correct = models.BooleanField()  # records whether response was correct
